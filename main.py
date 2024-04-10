@@ -47,17 +47,21 @@ except ValueError as e:
 def commission_deduction(func):
     def wrapper(balance, amount):
         commission = 1  # Commission amount
-        if balance < amount + commission:
+        deducted_balance = balance - commission
+        if deducted_balance < amount:
             return "Error: Not enough balance"
         else:
-            new_balance = balance - amount - commission
-            return func(new_balance)
+            return func(deducted_balance, amount)  # Pass the deducted balance and amount to the function
     return wrapper
 
 
 @commission_deduction
-def transaction(balance):
-    return f"Transaction successful. Remaining balance: {balance}"
+def transaction(balance, amount):
+    if balance < amount:
+        return "Error: Not enough balance"
+    else:
+        new_balance = balance - amount
+        return f"Transaction successful. Remaining balance: {new_balance}"
 
 
 balance = 100
@@ -69,4 +73,5 @@ balance = 10
 amount_to_pay = 20
 result = transaction(balance, amount_to_pay)
 print(result)
+
 
