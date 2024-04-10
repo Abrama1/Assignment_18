@@ -48,10 +48,7 @@ def commission_deduction(func):
     def wrapper(balance, amount):
         commission = 1  # Commission amount
         deducted_balance = balance - commission
-        if deducted_balance < amount:
-            return "Error: Not enough balance"
-        else:
-            return func(deducted_balance, amount)  # Pass the deducted balance and amount to the function
+        return func(deducted_balance, amount)  # Pass the deducted balance and amount to the function
     return wrapper
 
 
